@@ -97,6 +97,9 @@ After menu is played/started, run these commands in PowerShell to trigger valida
 - **HideDomainCreds _[Boolean]_**;        If this is set to true, the credential fields will be hidden and no validation or variables will be set
     -->
 
+AllowRuleBypassModeKey screenshot
+![Apps](UI_Screenshots/OOBEUIWPF_Bypassmode.png)
+
 ### Generation Rules
 
 This is highly configurable and can have up to 5 areas. Please read the [config](OSDOOBEUI.config) file for more details
