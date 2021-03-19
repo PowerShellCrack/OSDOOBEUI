@@ -28,9 +28,9 @@ The UI is designed o look and feel like Windows 10 OOBE startup wizard but with 
 
 #### **OSDOOBEUI_SinglePage.ps1**
  The UI is designed to be a single page with the option to add an additional app page if needed. The UI will look like this:
- ![UI](UI_Screenshots\OOBEUIWPF_Blank-singlepage.png)
+ ![UI](UI_Screenshots/OOBEUIWPF_Blank-singlepage.png)
  
- ![Validate](UI_Screenshots\OOBEUIWPF_Validate-singlepage.png)
+ ![Validate](UI_Screenshots/OOBEUIWPF_Validate-singlepage.png)
 
 ```bash
 "%DEPLOYROOT%\tools\%architecture%\ServiceUI.exe" -process:TSProgressUI.exe "%SYSTEMROOT%\System32\WindowsPowerShell\v1.0\powershell.exe" -ExecutionPolicy Bypass -Sta -File "%SCRIPTROOT%\Custom\OSDOOBEUI\OSDOOBEUI_SinglePage.ps1" -ConfigPath OOBEUIWPF.config
@@ -39,7 +39,7 @@ The UI is designed o look and feel like Windows 10 OOBE startup wizard but with 
 ### Current Features
 
 - **Splash screen**: can be enabled or disabled by the config file. The splash screen is useful when hiding the PowerShell window screen while the UI is loading and task sequence progress bar
-![Splash screen](UI_Screenshots\splashscreen.PNG)
+![Splash screen](UI_Screenshots/splashscreen.PNG)
 
 ## Configurable Items
 
@@ -71,7 +71,7 @@ After menu is played/started, run these commands in PowerShell to trigger valida
 - **SinglePageOnly _[Boolean]_**;  Display the UI as a single page. App page can be enabled if set to true
 
 When _SinglePageOnly_ is set to _false_ and apps are set
-![Apps](UI_Screenshots\OOBEUIWPF_Apps.png)
+![Apps](UI_Screenshots/OOBEUIWPF_Apps.png)
 
 - **ShowAppSelection _[Boolean]_**; Display the App page (used for both single and multi page UI's)
 
@@ -261,6 +261,6 @@ Here are some screenshots or errors presented in UI
 
 
 
-![Error1](UI_Screenshots\OOBEUIWPF_Validate_error1-singlepage.png)
+![Error1](UI_Screenshots/OOBEUIWPF_Validate_error1-singlepage.png)
 
-![Error2](UI_Screenshots\OOBEUIWPF_Validate_error2-singlepage.png)
+![Error2](UI_Screenshots/OOBEUIWPF_Validate_error2-singlepage.png)
