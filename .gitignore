@@ -1,0 +1,12 @@
+OOBEUIWPF.config
+*.zip
+!/Archive/
+/Archive/*
+!/Functions/Archive/
+/Functions/Archive/*
+!/.vscode/
+/.vscode/*
+*lab*
+*don*
+*dod*
+TSEnv.ps1

@@ -1,0 +1,76 @@
+Index,TimeZone,Name,UTC,Abbr
+0,"(GMT-12:00) Dateline Standard Time",International Date Line West,UTC-12:00,DST
+1,"(GMT-11:00) Samoa Standard Time","Midway Island, Samoa",UTC-11:00,SST
+2,"(GMT-10:00) Hawaiian Standard Time",Hawaii,UTC-10:00,HST
+3,"(GMT-09:00) Alaskan Standard Time",Alaska,UTC-09:00,AKST
+4,"(GMT-08:00) Pacific Standard Time",Pacific Time (US and Canada),UTC-08:00,PST
+10,"(GMT-07:00) Mountain Standard Time",Mountain Time (US and Canada),UTC-07:00,MST
+13,"(GMT-07:00) Mexico Standard Time 2","Chihuahua, La Paz, Mazatlan",UTC-07:00,CST
+15,"(GMT-07:00) Mountain Standard Time",Arizona,UTC-07:00,MST
+20,"(GMT-06:00) Central Standard Time",Central Time (US and Canada),UTC-06:00,CST
+25,"(GMT-06:00) Canada Central Standard Time",Saskatchewan,UTC-06:00,CDT
+30,"(GMT-06:00) Mexico Standard Time","Guadalajara, Mexico City, Monterrey",UTC-06:00,CST
+33,"(GMT-06:00) Central America Standard Time",Central America,UTC-06:00,CAST
+35,"(GMT-05:00) Eastern Standard Time",Eastern Time (US and Canada),UTC-05:00,EST
+40,"(GMT-05:00) Eastern Standard Time",Indiana (East),UTC-05:00,EST
+45,"(GMT-05:00) S.A. Pacific Standard Time","Bogota, Lima, Quito",UTC-05:00,COT
+50,"(GMT-04:00) Atlantic Standard Time",Atlantic Time (Canada),UTC-04:00,AST
+55,"(GMT-04:00) S.A. Western Standard Time","Caracas, La Paz",UTC-04:00,VET
+56,"(GMT-04:00) Pacific S.A. Standard Time",Santiago,UTC-04:00,CLT
+60,"(GMT-03:30) Newfoundland and Labrador Standard Time",Newfoundland and Labrador,UTC-03:30,NST
+65,"(GMT-03:00) E. South America Standard Time",Brasilia,UTC-03:30,BRT
+70,"(GMT-03:00) S.A. Eastern Standard Time","Buenos Aires, Georgetown",UTC-03:00,ART
+73,"(GMT-03:00) Greenland Standard Time",Greenland,UTC-03:00,WGT
+75,"(GMT-02:00) Mid-Atlantic Standard Time",Mid-Atlantic,UTC-02:00,AST
+80,"(GMT-01:00) Azores Standard Time",Azores,UTC-01:00,AZOT
+83,"(GMT-01:00) Cape Verde Standard Time",Cape Verde Islands,UTC-01:00,CVT
+85,(GMT) GMT Standard Time,"Greenwich Mean Time: Dublin, Edinburgh, Lisbon, London",UTC,GMT
+90,(GMT) Greenwich Standard Time,"Casablanca, Monrovia",UTC,WEST
+95,"(GMT+01:00) Central Europe Standard Time","Belgrade, Bratislava, Budapest, Ljubljana, Prague",UTC+01:00,CET
+100,"(GMT+01:00) Central European Standard Time","Sarajevo, Skopje, Warsaw, Zagreb",UTC+01:00,CET
+105,"(GMT+01:00) Romance Standard Time","Brussels, Copenhagen, Madrid, Paris",UTC+01:00,CET
+110,"(GMT+01:00) W. Europe Standard Time","Amsterdam, Berlin, Bern, Rome, Stockholm, Vienna",UTC+01:00,CET
+113,"(GMT+01:00) W. Central Africa Standard Time",West Central Africa,UTC+01:00,WAT
+115,"(GMT+02:00) E. Europe Standard Time",Bucharest,UTC+02:00,EET
+120,"(GMT+02:00) Egypt Standard Time",Cairo,UTC+02:00,EET
+125,"(GMT+02:00) FLE Standard Time","Helsinki, Kiev, Riga, Sofia, Tallinn, Vilnius",UTC+02:00,EET
+130,"(GMT+02:00) GTB Standard Time","Athens, Istanbul, Minsk",UTC+02:00,EET
+135,"(GMT+02:00) Israel Standard Time",Jerusalem,UTC+02:00,IST
+140,"(GMT+02:00) South Africa Standard Time","Harare, Pretoria",UTC+02:00,SAST
+145,"(GMT+03:00) Russian Standard Time","Moscow, St. Petersburg, Volgograd",UTC+03:00,MSK
+150,"(GMT+03:00) Arab Standard Time","Kuwait, Riyadh",UTC+03:00,AST
+155,"(GMT+03:00) E. Africa Standard Time",Nairobi,UTC+03:00,EAT
+158,"(GMT+03:00) Arabic Standard Time",Baghdad,UTC+03:00,AST
+160,"(GMT+03:30) Iran Standard Time",Tehran,UTC+03:30,IRST
+165,"(GMT+04:00) Arabian Standard Time","Abu Dhabi, Muscat",UTC+04:00,GST
+170,"(GMT+04:00) Caucasus Standard Time","Baku, Tbilisi, Yerevan",UTC+04:00,AZT
+175,"(GMT+04:30) Transitional Islamic State of Afghanistan Standard Time",Kabul,UTC+04:30,AFT
+180,"(GMT+05:00) Ekaterinburg Standard Time",Ekaterinburg,UTC+05:00,YEKT
+185,"(GMT+05:00) West Asia Standard Time","Islamabad, Karachi, Tashkent",UTC+05:00,PKT
+190,"(GMT+05:30) India Standard Time","Chennai, Kolkata, Mumbai, New Delhi",UTC+05:30,IST
+193,"(GMT+05:45) Nepal Standard Time",Kathmandu,UTC+05:45,NPT
+195,"(GMT+06:00) Central Asia Standard Time","Astana, Dhaka",UTC+06:00,ALMT
+200,"(GMT+06:00) Sri Lanka Standard Time",Sri Jayawardenepura,UTC+06:00,IST
+201,"(GMT+06:00) N. Central Asia Standard Time","Almaty, Novosibirsk",UTC+06:00,ALMT
+203,"(GMT+06:30) Myanmar Standard Time",Yangon Rangoon,UTC+06:30,MMT
+205,"(GMT+07:00) S.E. Asia Standard Time","Bangkok, Hanoi, Jakarta",UTC+07:00,ICT
+207,"(GMT+07:00) North Asia Standard Time",Krasnoyarsk,UTC+07:00,KRAT
+210,"(GMT+08:00) China Standard Time","Beijing, Chongqing, Hong Kong SAR, Urumqi",UTC+08:00,CST
+215,"(GMT+08:00) Singapore Standard Time","Kuala Lumpur, Singapore",UTC+08:00,MYT
+220,"(GMT+08:00) Taipei Standard Time",Taipei,UTC+08:00,CST
+225,"(GMT+08:00) W. Australia Standard Time",Perth,UTC+08:00,AWST
+227,"(GMT+08:00) North Asia East Standard Time","Irkutsk, Ulaanbaatar",UTC+08:00,IRKT
+230,"(GMT+09:00) Korea Standard Time",Seoul,UTC+09:00,KST
+235,"(GMT+09:00) Tokyo Standard Time","Osaka, Sapporo, Tokyo",UTC+09:00,JST
+240,"(GMT+09:00) Yakutsk Standard Time",Yakutsk,UTC+09:00,YAKT
+245,"(GMT+09:30) A.U.S. Central Standard Time",Darwin,UTC+09:30,ACST
+250,"(GMT+09:30) Cen. Australia Standard Time",Adelaide,UTC+09:30,ACST
+255,"(GMT+10:00) A.U.S. Eastern Standard Time","Canberra, Melbourne, Sydney",UTC+10:00,AEST
+260,"(GMT+10:00) E. Australia Standard Time",Brisbane,UTC+10:00,AEST
+265,"(GMT+10:00) Tasmania Standard Time",Hobart,UTC+10:00,AEST
+270,"(GMT+10:00) Vladivostok Standard Time",Vladivostok,UTC+10:00,VLAT
+275,"(GMT+10:00) West Pacific Standard Time","Guam, Port Moresby",UTC+10:00,GST
+280,"(GMT+11:00) Central Pacific Standard Time","Magadan, Solomon Islands, New Caledonia",UTC+11:00,MAGT
+285,"(GMT+12:00) Fiji Islands Standard Time","Fiji Islands, Kamchatka, Marshall Islands",UTC+12:00,FJT
+290,"(GMT+12:00) New Zealand Standard Time","Auckland, Wellington",UTC+12:00,NZST
+300,"(GMT+13:00) Tonga Standard Time",Nuku'alofa,UTC+13:00,TOT

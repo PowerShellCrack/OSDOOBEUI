@@ -1,0 +1,568 @@
+﻿<Window x:Class="OOBEUI_ForTS.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:OOBEUI_ForTS"
+        mc:Ignorable="d"
+        WindowState="Maximized"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        Title="OOBEUI_ForTS"
+        Width="1024" Height="768"
+        Background="#1f1f1f">
+    <Window.Resources>
+        <ResourceDictionary>
+
+            <Style TargetType="{x:Type Window}">
+                <Setter Property="FontFamily" Value="Segoe UI" />
+                <Setter Property="FontWeight" Value="Light" />
+                <Setter Property="Background" Value="#1f1f1f" />
+                <Setter Property="Foreground" Value="white" />
+            </Style>
+
+            <!-- TabControl Style-->
+            <Style  TargetType="TabControl">
+                <Setter Property="OverridesDefaultStyle" Value="true"/>
+                <Setter Property="SnapsToDevicePixels" Value="true"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type TabControl}">
+                            <Grid KeyboardNavigation.TabNavigation="Local">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+
+                                <TabPanel x:Name="HeaderPanel"
+                                  Grid.Row="0"
+                                  Panel.ZIndex="1"
+                                  Margin="0,0,4,-3"
+                                  IsItemsHost="True"
+                                  KeyboardNavigation.TabIndex="1"
+                                  Background="Transparent" />
+
+                                <Border x:Name="Border"
+                            Grid.Row="1"
+                            BorderThickness="0,3,0,0"
+                            KeyboardNavigation.TabNavigation="Local"
+                            KeyboardNavigation.DirectionalNavigation="Contained"
+                            KeyboardNavigation.TabIndex="2">
+
+                                    <Border.Background>
+                                        <SolidColorBrush Color="#4c4c4c"/>
+                                    </Border.Background>
+
+                                    <Border.BorderBrush>
+                                        <SolidColorBrush Color="#4c4c4c" />
+                                    </Border.BorderBrush>
+
+                                    <ContentPresenter x:Name="PART_SelectedContentHost"
+                                          Margin="0,0,0,0"
+                                          ContentSource="SelectedContent" />
+                                </Border>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <!-- TabItem Style -->
+            <Style x:Key="OOBETabStyle" TargetType="{x:Type TabItem}" >
+                <!--<Setter Property="Foreground" Value="#FFE6E6E6"/>-->
+                <Setter Property="Template">
+                    <Setter.Value>
+
+                        <ControlTemplate TargetType="{x:Type TabItem}">
+                            <Grid>
+                                <Border
+                                    Name="Border"
+                                    Margin="0"
+                                    CornerRadius="0">
+                                    <ContentPresenter x:Name="ContentSite" VerticalAlignment="Center"
+                                        HorizontalAlignment="Center" ContentSource="Header"
+                                        RecognizesAccessKey="True" />
+                                </Border>
+                            </Grid>
+
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Foreground" Value="#313131" />
+                                    <Setter TargetName="Border" Property="BorderThickness" Value="0,0,0,3" />
+                                    <Setter TargetName="Border" Property="BorderBrush" Value="#4c4c4c" />
+                                </Trigger>
+                                <Trigger Property="IsMouseOver" Value="False">
+                                    <Setter Property="Foreground" Value="#313131" />
+                                    <Setter TargetName="Border" Property="BorderThickness" Value="0,0,0,3" />
+                                    <Setter TargetName="Border" Property="BorderBrush" Value="#4c4c4c" />
+                                </Trigger>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="Panel.ZIndex" Value="100" />
+                                    <Setter Property="Foreground" Value="white" />
+                                    <Setter TargetName="Border" Property="BorderThickness" Value="0,0,0,3" />
+                                    <Setter TargetName="Border" Property="BorderBrush" Value="White" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+
+            </Style>
+
+            <Style x:Key="DataGridContentCellCentering" TargetType="{x:Type DataGridCell}">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type DataGridCell}">
+                            <Grid Background="{TemplateBinding Background}">
+                                <ContentPresenter VerticalAlignment="Center" />
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+
+            <Style TargetType="{x:Type Button}">
+                <Setter Property="Background" Value="#FF1D3245" />
+                <Setter Property="Foreground" Value="#FFE8EDF9" />
+                <Setter Property="FontSize" Value="15" />
+                <Setter Property="SnapsToDevicePixels" Value="True" />
+
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button" >
+
+                            <Border Name="border" 
+                                BorderThickness="1"
+                                Padding="4,2" 
+                                BorderBrush="#336891" 
+                                CornerRadius="1" 
+                                Background="#0078d7">
+                                <ContentPresenter HorizontalAlignment="Center" 
+                                                VerticalAlignment="Center" 
+                                                TextBlock.TextAlignment="Center"
+                                                />
+                            </Border>
+
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="border" Property="BorderBrush" Value="#FFE8EDF9" />
+                                </Trigger>
+
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter TargetName="border" Property="BorderBrush" Value="#FF1D3245" />
+                                    <Setter Property="Button.Foreground" Value="#FF1D3245" />
+                                    <Setter Property="Effect">
+                                        <Setter.Value>
+                                            <DropShadowEffect ShadowDepth="0" Color="#FF1D3245" Opacity="1" BlurRadius="10"/>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Trigger>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter TargetName="border" Property="BorderBrush" Value="#336891" />
+                                    <Setter Property="Button.Foreground" Value="#336891" />
+                                </Trigger>
+                                <Trigger Property="IsFocused" Value="False">
+                                    <Setter TargetName="border" Property="BorderBrush" Value="#336891" />
+                                    <Setter Property="Button.Background" Value="#336891" />
+                                </Trigger>
+
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="{x:Type ListBox}" TargetType="ListBox">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ListBox">
+                            <Border Name="Border" BorderThickness="1" CornerRadius="2">
+                                <ScrollViewer Margin="0" Focusable="false">
+                                    <StackPanel Margin="2" IsItemsHost="True" />
+                                </ScrollViewer>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="{x:Type ListBoxItem}" TargetType="ListBoxItem">
+                <Setter Property="ScrollViewer.CanContentScroll" Value="true" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ListBoxItem">
+                            <Border Name="ItemBorder" Padding="8" Margin="1" Background="#004275">
+                                <ContentPresenter />
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter TargetName="ItemBorder" Property="Background" Value="#00A4EF" />
+                                    <Setter Property="Foreground" Value="#FF1D3245" />
+                                </Trigger>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="IsMouseOver" Value="True" />
+                                        <Condition Property="IsSelected" Value="False" />
+                                    </MultiTrigger.Conditions>
+                                    <Setter TargetName="ItemBorder" Property="Background" Value="#00A4EF" />
+                                </MultiTrigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="CheckBoxModernStyle1" TargetType="{x:Type CheckBox}">
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"/>
+                <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type CheckBox}">
+                            <ControlTemplate.Resources>
+                                <Storyboard x:Key="OnChecking">
+                                    <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="slider" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
+                                        <SplineDoubleKeyFrame KeyTime="00:00:00.3000000" Value="32"/>
+                                    </DoubleAnimationUsingKeyFrames>
+                                </Storyboard>
+                                <Storyboard x:Key="OnUnchecking">
+                                    <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="slider" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
+                                        <SplineDoubleKeyFrame KeyTime="00:00:00.3000000" Value="0"/>
+                                    </DoubleAnimationUsingKeyFrames>
+                                    <ThicknessAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="slider" Storyboard.TargetProperty="(FrameworkElement.Margin)">
+                                        <SplineThicknessKeyFrame KeyTime="00:00:00.3000000" Value="1,1,1,1"/>
+                                    </ThicknessAnimationUsingKeyFrames>
+                                </Storyboard>
+                            </ControlTemplate.Resources>
+
+                            <DockPanel x:Name="dockPanel">
+                                <ContentPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" ContentTemplate="{TemplateBinding ContentTemplate}" RecognizesAccessKey="True" VerticalAlignment="Center"/>
+                                <Grid Margin="5,5,0,5" Width="66" Background="#FF1D3245">
+
+                                    <TextBlock Text="Yes" TextWrapping="Wrap" FontWeight="Bold" FontSize="18" HorizontalAlignment="Right" Margin="0,0,3,0" Foreground="White" VerticalAlignment="Center"/>
+                                    <TextBlock Text="No"  TextWrapping="Wrap" FontWeight="Bold" FontSize="18" HorizontalAlignment="Left" Margin="2,0,0,0" Foreground="White" VerticalAlignment="Center"/>
+                                    <Border HorizontalAlignment="Left" x:Name="slider" Width="32" BorderThickness="1,1,1,1" CornerRadius="0,0,0,0" RenderTransformOrigin="0.5,0.5" Margin="1,1,1,1" Height="40">
+                                        <Border.RenderTransform>
+                                            <TransformGroup>
+                                                <ScaleTransform ScaleX="1" ScaleY="1"/>
+                                                <SkewTransform AngleX="0" AngleY="0"/>
+                                                <RotateTransform Angle="0"/>
+                                                <TranslateTransform X="0" Y="0"/>
+                                            </TransformGroup>
+                                        </Border.RenderTransform>
+                                        <Border.BorderBrush>
+                                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                                <GradientStop Color="#FFFFFFFF" Offset="0"/>
+                                                <GradientStop Color="#FF4490FF" Offset="1"/>
+                                            </LinearGradientBrush>
+                                        </Border.BorderBrush>
+                                        <Border.Background>
+                                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                                <GradientStop Color="#FF8AB4FF" Offset="1"/>
+                                                <GradientStop Color="#FFD1E2FF" Offset="0"/>
+                                            </LinearGradientBrush>
+                                        </Border.Background>
+                                    </Border>
+                                </Grid>
+                            </DockPanel>
+
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsChecked" Value="True">
+                                    <Trigger.ExitActions>
+                                        <BeginStoryboard Storyboard="{StaticResource OnUnchecking}" x:Name="OnUnchecking_BeginStoryboard"/>
+                                    </Trigger.ExitActions>
+                                    <Trigger.EnterActions>
+                                        <BeginStoryboard Storyboard="{StaticResource OnChecking}" x:Name="OnChecking_BeginStoryboard"/>
+                                    </Trigger.EnterActions>
+                                </Trigger>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style x:Key="ModernStyleGroupBox" TargetType="{x:Type GroupBox}">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="GroupBox">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+
+                                <Border Grid.Row="0"
+                                        BorderThickness="1"
+                                        BorderBrush="Black"
+                                        Background="#FF1D3245">
+                                    <Label Foreground="White">
+                                        <ContentPresenter Margin="4"
+                                                          ContentSource="Header"
+                                                          RecognizesAccessKey="True" />
+                                    </Label>
+                                </Border>
+                                <Border Grid.Row="1"
+                                        BorderThickness="1,0,1,1"
+                                        BorderBrush="#FF1D3245">
+                                    <ContentPresenter Margin="4" />
+                                </Border>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style x:Key="ModernToggleButton" TargetType="{x:Type ToggleButton}">
+                <Setter Property="MinWidth" Value="80"/>
+                <Setter Property="MinHeight" Value="26"/>
+                <Setter Property="Margin" Value="0"/>
+                <Setter Property="Background" Value="#336891" />
+                <Setter Property="Foreground" Value="White"/>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="BorderBrush" Value="#FF1D3245" />
+                        <Setter Property="Foreground" Value="#FF1D3245" />
+                    </Trigger>
+                    <Trigger Property="IsFocused" Value="True">
+                        <Setter Property="BorderBrush" Value="#FF1D3245" />
+                        <Setter Property="Foreground" Value="#FF1D3245" />
+                    </Trigger>
+                    <Trigger Property="IsChecked" Value="True">
+                        <Setter Property="BorderBrush" Value="#FF1D3245" />
+                        <Setter Property="Foreground" Value="#FF1D3245" />
+                        <Setter Property="FontWeight" Value="Bold" />
+                        <Setter Property="Effect">
+                            <Setter.Value>
+                                <DropShadowEffect ShadowDepth="0" Color="#FF1D3245" Opacity="1" BlurRadius="10"/>
+                            </Setter.Value>
+                        </Setter>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid x:Name="background" HorizontalAlignment="Center" VerticalAlignment="Center">
+
+        <TabControl x:Name="tabControl"  HorizontalAlignment="Center" VerticalAlignment="Center" Width="1024" Height="700" Margin="0,0,0,40">
+            <TabItem  x:Name="tab1" Style="{DynamicResource OOBETabStyle}" Header="Basics" Width="167" Height="60" BorderThickness="0" Margin="0,0,-20,0">
+                <Grid Background="#004275">
+                    <Image x:Name="tab1ImgLogoLeft" HorizontalAlignment="Left" Height="100" Margin="30,21,0,0" VerticalAlignment="Top" Width="100"/>
+                    <Image x:Name="tab1ImgLogoRight" HorizontalAlignment="Right" Height="100" Margin="0,21,30,0" VerticalAlignment="Top" Width="100"/>
+
+                    <TextBlock x:Name="tab1MainTitle" HorizontalAlignment="Center" Text="Let's set this device up for @Title" VerticalAlignment="Top" FontSize="48" Margin="0,36,0,0" Width="1024" TextAlignment="Center" FontFamily="Segoe UI Light"/>
+                    <TextBlock HorizontalAlignment="Center" Text="Let's get the basic things out of the way" VerticalAlignment="Top" FontSize="16" FontFamily="Segoe UI Light" Margin="0,100,0,0" Width="1024" TextAlignment="Center"/>
+                    <Label Content="What would you like the device name to be?" HorizontalAlignment="Center" FontSize="16" Margin="0,211,0,0" VerticalAlignment="Top" Foreground="White" Width="1024" HorizontalContentAlignment="Center"/>
+                    <TextBox x:Name="inputTxtComputerName" FontWeight="Medium" HorizontalAlignment="Left" Height="44" Margin="273,248,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Width="502" BorderThickness="0" FontSize="30" IsReadOnly="False" CharacterCasing="Upper"/>
+                    <Label x:Name="lblComputerNameExample" Content="(eg. WDSDNI123456NR)" HorizontalAlignment="Left" FontSize="16" Margin="273,297,0,0" VerticalAlignment="Top" Foreground="gray"/>
+                    <Button x:Name="btnTab1Validate" Content="Validate" Height="45" Width="180" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="18" Padding="10" Margin="0,0,249,296" />
+
+                    <TextBox x:Name="txtError" Margin="0,471,169,124" HorizontalAlignment="Right" Foreground="Black" IsEnabled="False" Text="" FontSize="20" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Width="659" />
+                    <Button x:Name="btnTab1Next" Content="Next" Height="45" Width="180" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="18" Padding="10" Margin="10" />
+                </Grid>
+            </TabItem>
+
+            <TabItem  x:Name="tab2" Style="{DynamicResource OOBETabStyle}" Header="Locale" Width="167" Height="60" BorderThickness="0" Margin="0,0,-20,0">
+                <Grid Background="#004275">
+                    <Image x:Name="tab2ImgLogoLeft" HorizontalAlignment="Left" Height="100" Margin="30,21,0,0" VerticalAlignment="Top" Width="100"/>
+                    <Image x:Name="tab2ImgLogoRight" HorizontalAlignment="Right" Height="100" Margin="0,21,30,0" VerticalAlignment="Top" Width="100"/>
+
+                    <TextBlock x:Name="tab2MainTitle" HorizontalAlignment="Center" Text="What site are you located at?" VerticalAlignment="Top" FontSize="48" Margin="0,36,0,0" Width="1024" TextAlignment="Center" FontFamily="Segoe UI Light"/>
+                    <TextBlock HorizontalAlignment="Center" Text="Select a site from the list for this device" VerticalAlignment="Top" FontSize="16" FontFamily="Segoe UI Light" Margin="0,100,0,0" Width="1024" TextAlignment="Center"/>
+                    <Label Content="Based on device name selection, is this locale correct?" HorizontalAlignment="Center" FontSize="16" Margin="0,147,0,0" VerticalAlignment="Top" Foreground="White" Width="1024" HorizontalContentAlignment="Center"/>
+
+                    <ListBox x:Name="inputCmbSiteList" HorizontalAlignment="Center" VerticalAlignment="Top" Background="#004275" Foreground="#FFE8EDF9" FontSize="18" Width="700" Height="372" Margin="162,178,162,0" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectionMode="Single"/>
+
+                    <Button x:Name="btnTab2Back" Content="Back" Height="45" Width="180" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="18" Padding="10" Margin="0,0,200,10" />
+                    <Button x:Name="btnTab2Next" Content="Next" Height="45" Width="180" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="18" Padding="10" Margin="10"/>
+                </Grid>
+            </TabItem>
+
+            <TabItem x:Name="tab3" Style="{DynamicResource OOBETabStyle}" Header="Time Zone" Width="167" Height="60" BorderThickness="0" Margin="0,0,-20,0">
+                <Grid Background="#004275">
+                    <Image x:Name="tab3ImgLogoLeft" HorizontalAlignment="Left" Height="100" Margin="30,21,0,0" VerticalAlignment="Top" Width="100"/>
+                    <Image x:Name="tab3ImgLogoRight" HorizontalAlignment="Right" Height="100" Margin="0,21,30,0" VerticalAlignment="Top" Width="100"/>
+
+                    <TextBlock x:Name="tab3MainTitle" HorizontalAlignment="Center" Text="Is this the time zone your in?" VerticalAlignment="Top" FontSize="48" Margin="0,36,0,0" Width="1024" TextAlignment="Center" FontFamily="Segoe UI Light"/>
+                    <TextBlock HorizontalAlignment="Center" Text="Select a time zone for this device" VerticalAlignment="Top" FontSize="16" FontFamily="Segoe UI Light" Margin="0,100,0,0" Width="1024" TextAlignment="Center"/>
+                    <Label Content="Based on site selection, is this timezone correct?" HorizontalAlignment="Center" FontSize="16" Margin="0,147,0,0" VerticalAlignment="Top" Foreground="White" Width="1024" HorizontalContentAlignment="Center"/>
+
+                    <ListBox x:Name="inputCmbTimeZoneList" HorizontalAlignment="Center" VerticalAlignment="Top" Background="#004275" Foreground="#FFE8EDF9" FontSize="18" Width="700" Height="372" Margin="162,178,162,0" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectionMode="Single"/>
+
+                    <Button x:Name="btnTab3Back" Content="Back" Height="45" Width="180" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="18" Padding="10" Margin="0,0,200,10" />
+                    <Button x:Name="btnTab3Next" Content="Next" Height="45" Width="180" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="18" Padding="10" Margin="10"/>
+                </Grid>
+            </TabItem>
+
+            <TabItem x:Name="tab4" Style="{DynamicResource OOBETabStyle}" Header="Network" Width="167" Height="60" BorderThickness="0" Margin="0,0,-20,0">
+                <Grid Background="#004275">
+                    <Image x:Name="tab4ImgLogoLeft" HorizontalAlignment="Left" Height="100" Margin="30,21,0,0" VerticalAlignment="Top" Width="100"/>
+                    <Image x:Name="tab4ImgLogoRight" HorizontalAlignment="Right" Height="100" Margin="0,21,30,0" VerticalAlignment="Top" Width="100"/>
+
+                    <TextBlock x:Name="tab4MainTitle" HorizontalAlignment="Center" Text="Let's connect this device to a network" VerticalAlignment="Top" FontSize="48" Margin="0,36,0,0" Width="1024" TextAlignment="Center" FontFamily="Segoe UI Light"/>
+                    <TextBlock HorizontalAlignment="Center" Text="Choose between a domain or workgroup" VerticalAlignment="Top" FontSize="16" FontFamily="Segoe UI Light" Margin="0,100,0,0" Width="1024" TextAlignment="Center"/>
+
+                    <Label x:Name="lblDomainWorkgroup" Content="What domain would you like to join?" HorizontalAlignment="Center" FontSize="16" Margin="0,147,0,0" VerticalAlignment="Top" Foreground="White" Width="1024" HorizontalContentAlignment="Center"/>
+                    <TextBox x:Name="inputTxtDomainWorkgroupName" FontWeight="Medium" HorizontalAlignment="Left" Height="44" Margin="273,184,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Width="502" BorderThickness="0" FontSize="30" IsReadOnly="False" CharacterCasing="Upper"/>
+                    <ComboBox x:Name="inputCmbDomainWorkgroupName" HorizontalAlignment="Left" Height="44" Margin="273,184,0,0" VerticalAlignment="Top" Width="502" BorderThickness="0" FontSize="18" />
+                    <Label x:Name="lblDomainOU" Content="OU/Department" HorizontalAlignment="Left" FontSize="16" Margin="273,288,0,0" VerticalAlignment="Top" Foreground="White" Width="128" HorizontalContentAlignment="right"/>
+                    <ComboBox x:Name="inputCmbDomainOU" HorizontalAlignment="Left" Height="30" Margin="406,288,0,0" VerticalAlignment="Top" Width="369" BorderThickness="0" FontSize="18" />
+                    <Label x:Name="lblDomainCredsInstruction" Content="You must provide credentials with permissions to join the domain" HorizontalContentAlignment="Right" HorizontalAlignment="Left" FontSize="12" Margin="295,340,0,0" VerticalAlignment="Top" Foreground="LightGray" Width="364" Height="28"/>
+                    <Label x:Name="lblDomainCredsExample" Content="(eg. domain\first.last.adm)" HorizontalContentAlignment="Left" HorizontalAlignment="Left" FontSize="12" Margin="403,395,0,0" VerticalAlignment="Top" Foreground="Gray" Width="146" Height="28"/>
+
+                    <Label x:Name="lblDomainAccountWorkgroupName" Content="Domain Account" HorizontalAlignment="Left" FontSize="16" Margin="275,366,0,0" VerticalAlignment="Top" Foreground="White" HorizontalContentAlignment="right"/>
+                    <TextBox x:Name="inputTxtDomainAdminLocalAccount" HorizontalAlignment="Left" Height="30" Margin="407,368,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Width="276" BorderThickness="0" FontSize="18" IsReadOnly="False"/>
+                    <Label Content="Password" HorizontalAlignment="Left" FontSize="16" Margin="327,440,0,0" VerticalAlignment="Top" Foreground="White" HorizontalContentAlignment="right"/>
+                    <PasswordBox x:Name="inputTxtPassword" HorizontalAlignment="left" VerticalAlignment="Top" Width="276" Height="30" Margin="407,442,0,0" FontSize="20" Background="White" PasswordChar="*" />
+                    <Label Content="Confirm Password" HorizontalAlignment="Left" FontSize="16" Margin="265,474,0,0" VerticalAlignment="Top" Foreground="White" HorizontalContentAlignment="right"/>
+                    <PasswordBox x:Name="inputTxtPasswordConfirm" HorizontalAlignment="Left" VerticalAlignment="Top" Width="276" Height="30" Margin="407,476,0,0" FontSize="20" Background="White" PasswordChar="*" />
+
+
+                    <CheckBox HorizontalAlignment="Center" Style="{DynamicResource CheckBoxModernStyle1}" VerticalAlignment="Center" Content="Configure 802.1x" Margin="555,237,249,363" FontSize="18" Height="40" Width="220" Foreground="White" IsChecked="False"/>
+
+                    <Button x:Name="btnTab4Back" Content="Back" Height="45" Width="180" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="18" Padding="10" Margin="0,0,200,10" />
+                    <Button x:Name="btnTab4Next" Content="Next" Height="45" Width="180" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="18" Padding="10" Margin="10"/>
+                </Grid>
+            </TabItem>
+
+            <TabItem x:Name="tab5" Style="{DynamicResource OOBETabStyle}" Header="Applications" Width="167" Height="60" BorderThickness="0" Margin="0,0,-20,0">
+                <Grid Background="#004275">
+                    <Image x:Name="tab5ImgLogoLeft" HorizontalAlignment="Left" Height="100" Margin="30,21,0,0" VerticalAlignment="Top" Width="100"/>
+                    <Image x:Name="tab5ImgLogoRight" HorizontalAlignment="Right" Height="100" Margin="0,21,30,0" VerticalAlignment="Top" Width="100"/>
+
+                    <TextBlock x:Name="tab5MainTitle" HorizontalAlignment="Center" Text="What applications do you need?" VerticalAlignment="Top" FontSize="48" Margin="0,36,0,0" Width="1024" TextAlignment="Center" FontFamily="Segoe UI Light"/>
+                    <TextBlock HorizontalAlignment="Center" Text="Select additional applications to install" VerticalAlignment="Top" FontSize="16" FontFamily="Segoe UI Light" Margin="0,100,0,0" Width="1024" TextAlignment="Center"/>
+
+                    <ToggleButton x:Name="tglAppInstall_1" Style="{DynamicResource ModernToggleButton}" Margin="160,150,0,0" Width="190" Height="37" Padding="-1" Focusable="false" VerticalAlignment="Top" HorizontalAlignment="Left">
+                        <TextBlock x:Name="txtAppName_1" Text="Install App 1" FontSize="12" TextWrapping="WrapWithOverflow" TextAlignment="Center"/>
+                    </ToggleButton>
+                    <TextBox x:Name="txtAppDesc_1" HorizontalAlignment="Right" Margin="0,150,160,0" VerticalAlignment="Top" Width="505" Foreground="Gray" Height="37" TextWrapping="Wrap" Background="Transparent" BorderBrush="Transparent"/>
+
+                    <ToggleButton x:Name="tglAppInstall_2" Style="{DynamicResource ModernToggleButton}" Margin="160,200,0,0" Width="190" Height="37" Padding="-1" Focusable="false" VerticalAlignment="Top" HorizontalAlignment="Left">
+                        <TextBlock x:Name="txtAppName_2" Text="Install App 2" FontSize="12" TextWrapping="WrapWithOverflow" TextAlignment="Center"/>
+                    </ToggleButton>
+                    <TextBox x:Name="txtAppDesc_2" HorizontalAlignment="Right" Margin="0,200,160,0" VerticalAlignment="Top" Width="505" Foreground="Gray" Height="37" TextWrapping="Wrap" Background="Transparent" BorderBrush="Transparent"/>
+
+                    <ToggleButton x:Name="tglAppInstall_3" Style="{DynamicResource ModernToggleButton}" Margin="160,250,0,0" Width="190" Height="37" Padding="-1" Focusable="false" VerticalAlignment="Top" HorizontalAlignment="Left">
+                        <TextBlock x:Name="txtAppName_3" Text="Install App 3" FontSize="12" TextWrapping="WrapWithOverflow" TextAlignment="Center"/>
+                    </ToggleButton>
+                    <TextBox x:Name="txtAppDesc_3" HorizontalAlignment="Right" Margin="0,250,160,0" VerticalAlignment="Top" Width="505" Foreground="Gray" Height="37" TextWrapping="Wrap" Background="Transparent" BorderBrush="Transparent"/>
+
+                    <ToggleButton x:Name="tglAppInstall_4" Style="{DynamicResource ModernToggleButton}" Margin="160,300,0,0" Width="190" Height="37" Padding="-1" Focusable="false" VerticalAlignment="Top" HorizontalAlignment="Left">
+                        <TextBlock x:Name="txtAppName_4" Text="Install App 4" FontSize="12" TextWrapping="WrapWithOverflow" TextAlignment="Center"/>
+                    </ToggleButton>
+                    <TextBox x:Name="txtAppDesc_4" HorizontalAlignment="Right" Margin="0,300,160,0" VerticalAlignment="Top" Width="505" Foreground="Gray" Height="37" TextWrapping="Wrap" Background="Transparent" BorderBrush="Transparent"/>
+
+                    <ToggleButton x:Name="tglAppInstall_5" Style="{DynamicResource ModernToggleButton}" Margin="160,350,0,0" Width="190" Height="37" Padding="-1" Focusable="false" VerticalAlignment="Top" HorizontalAlignment="Left">
+                        <TextBlock x:Name="txtAppName_5" Text="Install App 5" FontSize="12" TextWrapping="WrapWithOverflow" TextAlignment="Center"/>
+                    </ToggleButton>
+                    <TextBox x:Name="txtAppDesc_5" HorizontalAlignment="Right" Margin="0,350,160,0" VerticalAlignment="Top" Width="505" Foreground="Gray" Height="37" TextWrapping="Wrap" Background="Transparent" BorderBrush="Transparent"/>
+
+                    <ToggleButton x:Name="tglAppInstall_6" Style="{DynamicResource ModernToggleButton}" Margin="160,400,0,0" Width="190" Height="37" Padding="-1" Focusable="false" VerticalAlignment="Top" HorizontalAlignment="Left">
+                        <TextBlock x:Name="txtAppName_6" Text="Install App 6" FontSize="12" TextWrapping="WrapWithOverflow" TextAlignment="Center"/>
+                    </ToggleButton>
+                    <TextBox x:Name="txtAppDesc_6" HorizontalAlignment="Right" Margin="0,400,160,0" VerticalAlignment="Top" Width="505" Foreground="Gray" Height="37" TextWrapping="Wrap" Background="Transparent" BorderBrush="Transparent"/>
+
+                    <ToggleButton x:Name="tglAppInstall_7" Style="{DynamicResource ModernToggleButton}" Margin="160,450,0,0" Width="190" Height="37" Padding="-1" Focusable="false" VerticalAlignment="Top" HorizontalAlignment="Left" >
+                        <TextBlock x:Name="txtAppName_7" Text="Install App 7" FontSize="12" TextWrapping="WrapWithOverflow" TextAlignment="Center"/>
+                    </ToggleButton>
+                    <TextBox x:Name="txtAppDesc_7" HorizontalAlignment="Right" Margin="0,450,160,0" VerticalAlignment="Top" Width="505" Foreground="Gray" Height="37" TextWrapping="Wrap" Background="Transparent" BorderBrush="Transparent"/>
+
+
+                    <ToggleButton x:Name="tglAppInstall_8" Style="{DynamicResource ModernToggleButton}" Margin="160,500,0,0" Width="190" Height="37" Padding="-1" Focusable="false" VerticalAlignment="Top" HorizontalAlignment="Left">
+                        <TextBlock x:Name="txtAppName_8" Text="Install App 8" FontSize="12" TextWrapping="WrapWithOverflow" TextAlignment="Center"/>
+                    </ToggleButton>
+                    <TextBox x:Name="txtAppDesc_8" HorizontalAlignment="Right" Margin="0,500,160,0" VerticalAlignment="Top" Width="505" Foreground="Gray" Height="37" TextWrapping="Wrap" Background="Transparent" BorderBrush="Transparent"/>
+
+                    <Button x:Name="btnTab5Back" Content="Back" Height="45" Width="180" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="18" Padding="10" Margin="0,0,200,10" />
+                    <Button x:Name="btnTab5Next" Content="Next" Height="45" Width="180" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="18" Padding="10" Margin="10"/>
+
+                </Grid>
+            </TabItem>
+            <TabItem x:Name="tab6" Style="{DynamicResource OOBETabStyle}" Header="Ready" Width="167" Height="60" BorderThickness="0" Margin="0,0,-20,0">
+                <Grid Background="#004275">
+                    <Image x:Name="tab6ImgLogoLeft" HorizontalAlignment="Left" Height="100" Margin="30,21,0,0" VerticalAlignment="Top" Width="100"/>
+                    <Image x:Name="tab6ImgLogoRight" HorizontalAlignment="Right" Height="100" Margin="0,21,30,0" VerticalAlignment="Top" Width="100"/>
+
+                    <TextBlock x:Name="tab6MainTitle" HorizontalAlignment="Center" Text="Does everything look correct?" VerticalAlignment="Top" FontSize="48" Margin="0,36,0,0" Width="1024" TextAlignment="Center" FontFamily="Segoe UI Light"/>
+                    <TextBlock HorizontalAlignment="Center" Text="" VerticalAlignment="Top" FontSize="16" FontFamily="Segoe UI Light" Margin="0,100,0,0" Width="1024" TextAlignment="Center" Grid.ColumnSpan="2"/>
+
+                    <Label x:Name="lblClassification" Content="Is this the correct classification?" HorizontalAlignment="Center" FontSize="16" Margin="0,147,0,0" VerticalAlignment="Top" Foreground="White" Width="1024" HorizontalContentAlignment="Center" />
+                    <TextBox x:Name="txtClassification" FontWeight="Medium" HorizontalAlignment="Left" Height="44" Margin="273,184,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Width="502" BorderThickness="0" FontSize="30" IsReadOnly="False" CharacterCasing="Upper"/>
+
+                    <GroupBox x:Name="grbDeviceInfo" Header="Device Info" Style="{DynamicResource ModernStyleGroupBox}" HorizontalAlignment="Left" Height="327" Margin="133,243,0,0" FontSize="16" VerticalAlignment="Top" Width="324" Foreground="Wheat" BorderBrush="#FF375AB8" />
+                    <Grid Margin="133,296,567,121" x:Name="grdIdentitySection" Grid.ColumnSpan="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto" MinWidth="121"></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition Width="auto"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+
+                        <Label Content="Serial Tag:" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" FontSize="16" VerticalAlignment="Center" Foreground="Black" Height="31" Width="80" HorizontalContentAlignment="Right"/>
+                        <TextBox x:Name="txtSerialNumber" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" TextWrapping="NoWrap" FontSize="18" IsReadOnly="True" Margin="0,4,0,5" Width="189" Background="#004275" BorderBrush="#FF1D3245"/>
+                        <Label Content="Manufacturer:" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" FontSize="16"  VerticalAlignment="Center" Foreground="Black" Height="31" Width="109" HorizontalContentAlignment="Right"/>
+                        <TextBox x:Name="txtManufacturer" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" TextWrapping="NoWrap" FontSize="18" IsReadOnly="True" Margin="0,5,0,4" Width="189" Background="#004275" BorderBrush="#FF1D3245"/>
+                        <Label Content="Model:" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" FontSize="16" VerticalAlignment="Center" Foreground="Black" Height="31" Width="59" HorizontalContentAlignment="Right"/>
+                        <TextBox x:Name="txtModel" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" TextWrapping="NoWrap" FontSize="18" IsReadOnly="True" Margin="0,4,0,5" Width="189" Background="#004275" BorderBrush="#FF1D3245"/>
+                        <Label Content="Mac Address:" Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" FontSize="16" VerticalAlignment="Center" Foreground="Black" Height="31" Width="104" HorizontalContentAlignment="Right"/>
+                        <TextBox x:Name="txtMac" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left" TextWrapping="NoWrap" FontSize="18" IsReadOnly="True" Margin="0,5,0,4" Width="189" Background="#004275" BorderBrush="#FF1D3245"/>
+                        <Label Content="IP Address:" Grid.Row="4" Grid.Column="0" HorizontalAlignment="Right" FontSize="16" VerticalAlignment="Center" Foreground="Black" Height="31" Width="88" HorizontalContentAlignment="Right"/>
+                        <TextBox x:Name="txtIP" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left" TextWrapping="NoWrap" FontSize="18" IsReadOnly="True" Margin="0,4,0,5" Width="189" Background="#004275" BorderBrush="#FF1D3245"/>
+                    </Grid>
+
+                    <GroupBox x:Name="grbIdentityInfo" Header="Identity Info" Style="{DynamicResource ModernStyleGroupBox}" HorizontalAlignment="Right" Height="327" Margin="0,243,133,0" FontSize="16" VerticalAlignment="Top" Width="324" Foreground="Wheat" BorderBrush="#FF375AB8" />
+                    <Grid Margin="567,296,133,78" x:Name="grdIDSection">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto" MinWidth="121"></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition Width="auto"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+
+                        <Label x:Name="lblId1" Content="Identity 1:" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" FontSize="16" VerticalAlignment="Center" Foreground="Black" Height="32" Width="121" Margin="0,8,0,5" HorizontalContentAlignment="Right"/>
+                        <TextBox x:Name="txtId1" Text="Demo" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" TextWrapping="NoWrap" FontSize="18" IsReadOnly="True" Margin="0,5,0,5" Width="189" VerticalContentAlignment="Center" Background="#004275" BorderBrush="#FF1D3245" Foreground="#FF8595AB" Padding="2,0,0,0"/>
+                        <Label x:Name="lblId2" Content="Identity 2:" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" FontSize="16"  VerticalAlignment="Center" Foreground="Black" Height="32" Width="121" Margin="0,8,0,5" HorizontalContentAlignment="Right"/>
+                        <TextBox x:Name="txtId2" Text="Demo" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" TextWrapping="NoWrap" FontSize="18" IsReadOnly="True" Margin="0,5,0,5" Width="189" VerticalContentAlignment="Center" Background="#004275" BorderBrush="#FF1D3245" Foreground="#FF8595AB" Padding="2,0,0,0"/>
+                        <Label x:Name="lblId3" Content="Identity 3:" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" FontSize="16" VerticalAlignment="Center" Foreground="Black" Height="31" Width="121" Margin="0,7" HorizontalContentAlignment="Right"/>
+                        <TextBox x:Name="txtId3" Text="Demo" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" TextWrapping="NoWrap" FontSize="18" IsReadOnly="True" Margin="0,5,0,5" Width="189" VerticalContentAlignment="Center" Background="#004275" BorderBrush="#FF1D3245" Foreground="#FF8595AB" Padding="2,0,0,0"/>
+                        <Label x:Name="lblId4" Content="Identity 4:" Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" FontSize="16" VerticalAlignment="Center" Foreground="Black" Height="30" Width="121" Margin="0,8,0,7" HorizontalContentAlignment="Right"/>
+                        <TextBox x:Name="txtId4" Text="Demo" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left" TextWrapping="NoWrap" FontSize="18" IsReadOnly="True" Margin="0,5,0,5" Width="189" VerticalContentAlignment="Center" Background="#004275" BorderBrush="#FF1D3245" Foreground="#FF8595AB" Padding="2,0,0,0"/>
+                        <Label x:Name="lblId5" Content="Identity 5:" Grid.Row="4" Grid.Column="0" HorizontalAlignment="Right" FontSize="16" VerticalAlignment="Center" Foreground="Black" Height="30" Width="121" Margin="0,8,0,7" HorizontalContentAlignment="Right"/>
+                        <TextBox x:Name="txtId5" Text="Demo" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left" TextWrapping="NoWrap" FontSize="18" IsReadOnly="True" Margin="0,5,0,5" Width="189" VerticalContentAlignment="Center" Background="#004275" BorderBrush="#FF1D3245" Foreground="#FF8595AB" Padding="2,0,0,0"/>
+
+                        <Grid Margin="0,40,0,0" x:Name="grdSiteCode" Grid.ColumnSpan="2" Grid.Row="4" Grid.RowSpan="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto" MinWidth="121"></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Label Content="Site Code:" Grid.Column="0" HorizontalAlignment="Right" FontSize="16" VerticalAlignment="Center" Foreground="Black" Height="30" Width="121" Margin="0,7,0,5" HorizontalContentAlignment="Right"/>
+                            <TextBox x:Name="txtSiteCode" Text="Demo" HorizontalAlignment="Left" TextWrapping="NoWrap" FontSize="18" IsReadOnly="False" Margin="0,5,0,5" Width="189" Foreground="White" VerticalContentAlignment="Center" Background="#FF1D3245" BorderBrush="#FF1D3245" Grid.Column="1" Padding="2,0,0,0"/>
+                        </Grid>
+
+
+                    </Grid>
+                    <Button x:Name="btnTab6Back" Content="Back" Height="45" Width="180" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="18" Padding="10" Margin="0,0,200,10" Grid.Column="1" />
+                    <Button x:Name="btnTab6Begin" Content="Ready" Height="45" Width="180" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="18" Padding="10" Margin="0,0,10,10" Grid.Column="1"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>
