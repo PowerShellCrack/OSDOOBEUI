@@ -66,7 +66,7 @@ After menu is played/started, run these commands in PowerShell to trigger valida
 - **BackgroundColor _[string]_**;Changes the main background color of the UI
     **NOTE:** Buttons are not changeable. Recommend keeping background a blue tone
 
-## Page Options
+### Page Options
 
 - **SinglePageOnly _[Boolean]_**;  Display the UI as a single page. App page can be enabled if set to true
 
@@ -101,7 +101,7 @@ When _SinglePageOnly_ is set to _false_ and apps are set
 - **HideDomainCreds _[Boolean]_**;        If this is set to true, the credential fields will be hidden and no validation or variables will be set
     -->
 
-## Generation Rules
+### Generation Rules
 
 This is highly configurable and can have up to 5 areas. This ultimately builds a regex string based on these settings. Please read the config file for more details
 
@@ -159,7 +159,7 @@ example:
     <rule Char="JMP" Name="Jump Box Workstation"                     VarValue="JMP" />
 </rulesets>
 ```
-## Classification list
+### Classification list
 
 If enabled, list is pre selected based on Computer Machine AS Rule; Searches for Type
 
@@ -170,7 +170,7 @@ example:
 	<classification Id="Lab" Level="Laboratory"    Type="Laboratory"	Color="Yellow"	/>
 </Locale_Classifications>
 ```
-## Domain List
+### Domain List
 
 Value is controlled based on dropdown field or by computer name value and when Validate is pressed. Not all options are present:
 
@@ -182,7 +182,7 @@ example:
 	<domain Name="PROD" FQDN="prod.contoso.com"       ClassId="Prod" Type="Auth" />
 </Locale_Domains>
 ```
-## DomainOU List
+### DomainOU List
 
 If enabled, this list will poplulate a dropdown based on site selected
 
@@ -194,7 +194,7 @@ example:
 </Locale_DomainOUs>
 ```
 
-## Site List
+### Site List
 
 Value is controlled based on dropdown field or by computer name value and when Validate is pressed. Not all options are present:
 
@@ -206,7 +206,7 @@ example:
 </Locale_Sites>
 ```
 
-## NetworkDetection List
+### NetworkDetection List
 
 If enabled, it will match the IP subnet with the Site code and preselect the option in the UI
 
@@ -219,7 +219,7 @@ example:
 </Locale_NetworkDetection>
 ```
 
-## Applications
+### Applications
 
 ```xml
 <Menu_AppButtons>
