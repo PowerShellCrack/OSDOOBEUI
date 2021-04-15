@@ -1261,8 +1261,13 @@ $ActiveBeginBtn.Add_Click({
     #Reset any highlighted input fields
     Reset-HighlightedFields -Object (WPFVar "input" -Wildcard) -ClearErrorMessage
 
-    #first check if the computer name meets basic standards
-    $ValidateComputerName = Confirm-ComputerNameField -ComputerNameObject (WPFVar "inputTxtComputerName") -OutputErrorObject (WPFVar "txtError") -ExcludeExample $NameStandardRuleExampleText
+    If($CaptureBypassModeKey){
+        $ValidateComputerName = $true
+    }
+    Else{
+        #first check if the computer name meets basic standards
+        $ValidateComputerName = Confirm-ComputerNameField -ComputerNameObject (WPFVar "inputTxtComputerName") -OutputErrorObject (WPFVar "txtError") -ExcludeExample $NameStandardRuleExampleText
+    }
 
     #check if name needs to be validated against rules (only if basic computer name is valid)
     If($CaptureBypassModeKey){
@@ -1281,7 +1286,10 @@ $ActiveBeginBtn.Add_Click({
     }
 
     #check if site code needs to be validated.
-    If($MenuShowSiteCode)
+    If($CaptureBypassModeKey){
+        $ValidateSiteCode = $true
+    }
+    ElseIf($MenuShowSiteCode)
     {
         $ValidateSiteCode = Confirm-SiteCode -SiteCodeObject (WPFVar "txtSiteCode") -OutputErrorObject (WPFVar "txtError")
     }
@@ -1290,7 +1298,10 @@ $ActiveBeginBtn.Add_Click({
     }
 
     #check if admin credentials are valid format. Ignor if using ODJ
-    If($MenuGenerateNameMethod -like 'ODJ*'){
+    If($CaptureBypassModeKey){
+        $ValidateAdminCreds = $true
+    }
+    ElseIf($MenuGenerateNameMethod -like 'ODJ*'){
         $ValidateAdminCreds = $true
     }
     ElseIf($MenuHideDomainList -or $MenuHideDomainCreds){

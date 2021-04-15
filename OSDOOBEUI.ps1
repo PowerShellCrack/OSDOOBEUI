@@ -703,7 +703,8 @@ If($MenuShowAppSelection)
 
     #Add apps selection from config
     Add-AppContent -AppData $MenuAppButtonsItems
-
+    
+    #enable the apptab
     $ActiveBeginBtn = Enable-AppTab -FlipButtons -ReturnActiveBtn
 }
 Else{
@@ -1115,6 +1116,13 @@ $UI.Add_KeyDown({
 #Region CLICKACTION: Allows UI to be updated based input
 (WPFVar "Validate" -Wildcard).Add_Click({
 
+    #first thing: capture if bypass mode key is pressed
+    If($null -ne $MenuAllowRuleBypassModeKey){
+        $CaptureBypassModeKey = Test-KeyPress -Keys $MenuAllowRuleBypassModeKey
+    }Else{
+        $CaptureBypassModeKey = $false
+    }
+
     Invoke-UIMessage -Message ("Validating device name: {0}" -f (WPFVar "inputTxtComputerName").text) -HighlightObject (WPFVar "inputTxtComputerName") -OutputErrorObject (WPFVar "txtError") -Type Info
     #Reset any highlighted input fields
     Reset-HighlightedFields -Object (WPFVar "input" -Wildcard) -ClearErrorMessage
@@ -1124,6 +1132,7 @@ $UI.Add_KeyDown({
 
     #check if name needs to be validated against rules
     If($ValidateComputerName -and $MenuEnableValidateNameRules){
+
         $ValidateIdentity = Confirm-ComputerNameRules -SiteList $MenuLocaleSiteList `
                                                     -XmlRules $NameStandardRuleSets `
                                                     -ComputerNameObject (WPFVar "inputTxtComputerName") `
@@ -1143,6 +1152,17 @@ $UI.Add_KeyDown({
         #update site info (and domain) by classification
         Update-UIDomainFields -FilterLocale $ValidateIdentity.Id3 -FilterClass $ValidateIdentity.Id4 `
                        -WorkgroupOption:$MenuAllowWorkgroupJoin -ClassificationProperty $MenuShowClassificationProperty
+
+       If($CaptureBypassModeKey)
+       {
+            #show it bypass mode was used
+            Invoke-UIMessage -Message ('USER BYPASS MODE: Hold [{0}] and press Begin' -f ($MenuAllowRuleBypassModeKey -join "+")) -HighlightObject (WPFVar "inputTxtComputerName") -OutputErrorObject (WPFVar "txtError") -Type OK
+            $ValidateIdentity = $true
+
+            #hide dropdown & enable textbox
+            ConvertTo-UITextBox -ComboBox (WPFVar "inputCmbDomainWorkgroupName")
+            Switch-TabItem -TabControlObject (WPFVar "subtabControl") -name 'Hardware'
+       }
     }
     Else{
         $ValidateIdentity = $ValidateComputerName
@@ -1165,22 +1185,38 @@ $UI.Add_KeyDown({
 
 
 
+
 #Region CLICKACTION: Begin will be enabled if validated is run
 $ActiveBeginBtn.Add_Click({
+
+    #first thing: capture if bypass mode key is pressed
+    If($null -ne $MenuAllowRuleBypassModeKey){
+        $CaptureBypassModeKey = Test-KeyPress -Keys $MenuAllowRuleBypassModeKey
+    }Else{
+        $CaptureBypassModeKey = $false
+    }
 
     #Reset any highlighted input fields
     Reset-HighlightedFields -Object (WPFVar "input" -Wildcard) -ClearErrorMessage
 
-    #first check if the computer name meets basic standards
-    $ValidateComputerName = Confirm-ComputerNameField -ComputerNameObject (WPFVar "inputTxtComputerName") -OutputErrorObject (WPFVar "txtError") -ExcludeExample $NameStandardRuleExampleText
+    If($CaptureBypassModeKey){
+        $ValidateComputerName = $true
+    }
+    Else{
+        #first check if the computer name meets basic standards
+        $ValidateComputerName = Confirm-ComputerNameField -ComputerNameObject (WPFVar "inputTxtComputerName") -OutputErrorObject (WPFVar "txtError") -ExcludeExample $NameStandardRuleExampleText
+    }
 
     #check if name needs to be validated against rules (only if basic computer name is valid)
-    If($ValidateComputerName -and $MenuEnableValidateNameRules)
+    If($CaptureBypassModeKey){
+        $ValidateComputerNameRules = $true
+    }
+    ElseIf($ValidateComputerName -and $MenuEnableValidateNameRules)
     {
         $ValidateComputerNameRules = Confirm-ComputerNameRules -SiteList $MenuLocaleSiteList `
-                                                                -XmlRules $NameStandardRuleSets `
-                                                                -ComputerNameObject (WPFVar "inputTxtComputerName") `
-                                                                -OutputErrorObject (WPFVar "txtError") -ReturnOption Variables
+                                                            -XmlRules $NameStandardRuleSets `
+                                                            -ComputerNameObject (WPFVar "inputTxtComputerName") `
+                                                            -OutputErrorObject (WPFVar "txtError") -ReturnOption Variables
         Set-OSDIdentityVariables -VariableTable $ValidateComputerNameRules
     }
     Else{
@@ -1188,7 +1224,10 @@ $ActiveBeginBtn.Add_Click({
     }
 
     #check if site code needs to be validated.
-    If($MenuShowSiteCode)
+    If($CaptureBypassModeKey){
+        $ValidateSiteCode = $true
+    }
+    ElseIf($MenuShowSiteCode)
     {
         $ValidateSiteCode = Confirm-SiteCode -SiteCodeObject (WPFVar "txtSiteCode") -OutputErrorObject (WPFVar "txtError")
     }
@@ -1197,7 +1236,13 @@ $ActiveBeginBtn.Add_Click({
     }
 
     #check if admin credentials are valid format. Ignor if using ODJ
-    If($MenuGenerateNameMethod -like 'ODJ*'){
+    If($CaptureBypassModeKey){
+        $ValidateAdminCreds = $true
+    }
+    ElseIf($MenuGenerateNameMethod -like 'ODJ*'){
+        $ValidateAdminCreds = $true
+    }
+    ElseIf($MenuHideDomainList -or $MenuHideDomainCreds){
         $ValidateAdminCreds = $true
     }
     Else{
@@ -1209,6 +1254,25 @@ $ActiveBeginBtn.Add_Click({
     #all check must be valid to preceed
     If($ValidateSiteCode -and $ValidateComputerName -and $ValidateComputerNameRules -and $ValidateAdminCreds)
     {
+        #Build Parameters for OSD Variables
+        $OSDParams = @{ComputerName=(WPFVar "inputTxtComputerName").Text}
+        If($MenuHideDomainList -ne $true){
+            If( (WPFVar "inputTxtDomainWorkgroupName").Text -eq 'Workgroup' ){
+                $OSDParams += @{DomainName=(WPFVar "inputTxtDomainWorkgroupName").Text}
+            }Else{
+                $OSDParams += @{DomainName=(WPFVar "inputTxtDomainWorkgroupName").Text;DomainOU=(WPFVar "inputCmbDomainOU").Text}
+            }
+        }
+        If($MenuHideDomainCreds -ne $true){
+            If( (WPFVar "inputTxtDomainWorkgroupName").Text -eq 'Workgroup' ){
+                $OSDParams += @{LocalAdminPassword=(WPFVar "inputTxtPassword").Password}
+            }Else{
+                $OSDParams += @{AdminUsername=(WPFVar "inputTxtDomainAdminLocalAccount").Text;AdminPassword=(WPFVar "inputTxtPassword").Password}
+            }
+        }
+        $OSDParams += @{CMSiteCode=(WPFVar "txtSiteCode").Text}
+
+
         #Set OSD variables for ODJ Join using a file
         If($MenuGenerateNameMethod -eq 'ODJFile'){
             Set-OSDOdjVariables -BlobFile $DeviceODJ.FullName -ComputerName (WPFVar "inputTxtComputerName").Text -LocalAdminPassword (WPFVar "inputTxtPassword").Password
@@ -1217,19 +1281,33 @@ $ActiveBeginBtn.Add_Click({
         ElseIf($MenuGenerateNameMethod -eq 'ODJBlob'){
             Set-OSDOdjVariables -BlobData $ODJBlobData -ComputerName (WPFVar "inputTxtComputerName").Text -DomainName (WPFVar "inputTxtDomainWorkgroupName").Text
         }
+        ElseIf($MenuHideDomainList -and $MenuHideDomainCreds){
+            Set-OSDDomainVariables -ComputerName (WPFVar "inputTxtComputerName").Text
+        }
         #Set OSD variables for Workgroup Join
         ElseIf( ((WPFVar "inputTxtDomainWorkgroupName").Text -eq 'Workgroup')){
-            Set-OSDWorkgroupVariables -ComputerName (WPFVar "inputTxtComputerName").Text -Workgroup (WPFVar "inputTxtDomainAdminLocalAccount").Text `
+            If($MenuHideDomainCreds){
+                Set-OSDWorkgroupVariables -ComputerName (WPFVar "inputTxtComputerName").Text -Workgroup (WPFVar "inputTxtDomainAdminLocalAccount").Text
+            }Else{
+                Set-OSDWorkgroupVariables -ComputerName (WPFVar "inputTxtComputerName").Text -Workgroup (WPFVar "inputTxtDomainAdminLocalAccount").Text `
                                 -LocalAdminPassword (WPFVar "inputTxtPassword").Password
+            }
         }
         #Set OSD variables for Domain Join
         Else{
-            Set-OSDDomainVariables -ComputerName (WPFVar "inputTxtComputerName").Text -DomainName (WPFVar "inputTxtDomainWorkgroupName").Text -DomainOU (WPFVar "inputCmbDomainOU").Text`
+            $DomainName = $MenuLocaleDomainList | Where {$_.FQDN -eq (WPFVar "inputTxtDomainWorkgroupName").Text} | Select -ExpandProperty Name
+            If($MenuHideDomainCreds){
+
+                Set-OSDDomainVariables -ComputerName (WPFVar "inputTxtComputerName").Text -DomainName $DomainName -DomainFQDN (WPFVar "inputTxtDomainWorkgroupName").Text -DomainOU (WPFVar "inputCmbDomainOU").Text`
+                                -CMSiteCode (WPFVar "txtSiteCode").Text
+            }Else{
+                Set-OSDDomainVariables -ComputerName (WPFVar "inputTxtComputerName").Text -DomainName $DomainName -DomainFQDN (WPFVar "inputTxtDomainWorkgroupName").Text -DomainOU (WPFVar "inputCmbDomainOU").Text`
                                 -AdminUsername (WPFVar "inputTxtDomainAdminLocalAccount").Text -AdminPassword (WPFVar "inputTxtPassword").Password `
                                 -CMSiteCode (WPFVar "txtSiteCode").Text
+            }
         }
         #Set OSD variables for Timezones/Locale
-        Set-OSDLocaleVariables -TimeZone ($AllTimeZones | Where DisplayName -eq (WPFVar "inputCmbTimeZoneList").SelectedItem)
+        Set-OSDLocaleVariables -SelectedTimeZone ($AllTimeZones | Where {$_.TimeZone -eq (WPFVar "inputCmbTimeZoneList").SelectedItem})
         #Set OSD variables for Applications
         If($MenuShowAppSelection){Set-OSDAppVariables -AppObjects (WPFVar "tglAppInstall" -Wildcard) -AppList $MenuAppButtonsItems}
         #Set OSD variables for Classification

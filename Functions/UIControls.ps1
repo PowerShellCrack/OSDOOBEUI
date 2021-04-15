@@ -302,7 +302,7 @@ Function Add-UITimeZoneList{
     param(
         $TZCsvList = "$ResourcePath\TimeZonesIndex.csv",
         [Parameter(Mandatory = $true, Position=0)]
-        [System.Windows.Controls.ComboBox]$TimeZoneField,
+        $TimeZoneField,
         [switch]$ReturnList
     )
     ## Get the name of this function
@@ -331,7 +331,7 @@ Function Add-UIDomainNameList{
         [Parameter(Mandatory = $true, Position=0)]
         [object[]]$DomainList,
         [Parameter(Mandatory = $true, Position=1)]
-        [System.Windows.Controls.ComboBox]$DomainNameField,
+        $DomainNameField,
         [string]$TypeFilter
     )
     ## Get the name of this function
@@ -349,7 +349,7 @@ Function Add-UISiteList{
         [Parameter(Mandatory = $true, Position=0)]
         $SiteList,
         [Parameter(Mandatory = $false, Position=1)]
-        [System.Windows.Controls.ComboBox]$SiteListField,
+        $SiteListField,
         [string]$DisplayFormat = '<id> - <Baselocation> [<SiteCode>]',
         [switch]$ReturnList
     )
@@ -426,11 +426,11 @@ Function Update-UILocaleFields {
         [string]$SiteID,
         [Parameter(Mandatory = $false, Position=1,ParameterSetName="base")]
         [string]$Base,
-        [System.Windows.Controls.ComboBox]$UpdateSiteListObject,
-        [System.Windows.Controls.ComboBox]$UpdateTimeZoneObject,
+        $UpdateSiteListObject,
+        $UpdateTimeZoneObject,
         [System.Windows.Controls.TextBox]$UpdateSiteCodeObject,
         #[System.Windows.Controls.TextBox]$UpdateDomainObject,
-        [System.Windows.Controls.ComboBox]$UpdateDomainObject,
+        $UpdateDomainObject,
         [switch]$ReturnProperties
     )
     ## Get the name of this function
